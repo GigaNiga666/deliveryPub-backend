@@ -15,7 +15,7 @@ class ProductController {
 
   async createProduct(req, res) {
     await productService.createProduct(req.body)
-    res.status(200)
+    res.status(200).send()
   }
 
   async getInvoiceLink(req, res) {
