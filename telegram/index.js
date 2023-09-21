@@ -7,7 +7,7 @@ bot.use(session())
 
 bot.start((ctx) => {
   ctx.reply(`Выберете действие:`, Markup.inlineKeyboard([
-    Markup.button.webApp('Сайт', 'https://bdf5-79-172-16-96.ngrok-free.app'),
+    Markup.button.webApp('Сайт', `${process.env.CLIENT_URL}`),
   ]))
 })
 
