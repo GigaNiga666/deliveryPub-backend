@@ -18,5 +18,5 @@ create TABLE product (
     brewery_name VARCHAR(255) NOT NULL,
     style_name VARCHAR(255) NOT NULL,
     category_id INTEGER,
-    FOREIGN KEY (category) REFERENCES category(id)
+    FOREIGN KEY (category_id) REFERENCES category(id)
 );
