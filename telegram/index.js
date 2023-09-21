@@ -10,7 +10,6 @@ bot.start((ctx) => {
     Markup.button.webApp('Сайт', `${process.env.CLIENT_URL}`),
   ]))
 })
-
 const launchBot = () => bot.launch();
 
 const createInvoiceLink = async () => {
