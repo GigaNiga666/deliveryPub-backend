@@ -17,7 +17,7 @@ const createInvoiceLink = async (products) => {
     title: 'Оплата вашего заказа',
     description: 'Ваш заказ',
     currency: 'RUB',
-    payload: null,
+    payload: 1,
     provider_token: process.env.BOT_PAYMENT_TOKEN,
     prices: products
   })
