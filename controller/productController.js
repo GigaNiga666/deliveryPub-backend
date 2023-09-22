@@ -19,7 +19,7 @@ class ProductController {
   }
 
   async getInvoiceLink(req, res) {
-    const link = await productService.getInvoiceLink()
+    const link = await productService.getInvoiceLink(req.body.price, req.body.products)
     res.send(link)
   }
 }
