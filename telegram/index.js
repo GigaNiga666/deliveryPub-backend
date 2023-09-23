@@ -20,7 +20,12 @@ const answerWebAppQuery = async (data) => {
     msgText += `---------------------------\nНазвание: ${order.name}, Количество : ${order.amount}\n`
   })
 
-  msgText += `---------------------------\nИмя: ${data.delivery.name}\nТелефон: ${data.delivery.telephone}\nАдрес: ${data.delivery.address}\nТип оплаты: ${data.delivery.paymentType}\n${'Комментарий: ' + data.delivery.com && ''}`
+  msgText += `---------------------------\n
+  Имя: ${data.delivery.name}\n
+  Телефон: ${data.delivery.telephone}\n
+  Адрес: ${data.delivery.address}\n
+  Тип оплаты: ${data.delivery.paymentType}\n
+  ${data.delivery.com ? `$Комментарий : ${data.delivery.com}` : ''}`
 
   await telegram.answerWebAppQuery(data.queryId, {
     type: 'article',
