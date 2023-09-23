@@ -27,7 +27,7 @@ const answerWebAppQuery = async (data) => {
 Телефон: ${data.delivery.telephone}
 Адрес: ${data.delivery.address}
 Тип оплаты: ${data.delivery.paymentType}
-${data.delivery.com ? `Комментарий : ${data.delivery.com}` : ''}`
+${data.delivery.com ? `Комментарий : ${data.delivery.com}` : ''}\n`
 
   await telegram.answerWebAppQuery(data.queryId, {
     type: 'article',
@@ -37,8 +37,10 @@ ${data.delivery.com ? `Комментарий : ${data.delivery.com}` : ''}`
       message_text : msgText
     }
   })
-  await telegram.sendMessage(-4094641498, msgText)
-  await telegram.sendMessage(-4094641498, `https://web.telegram.org/k/${data.userId}`)
+
+  msgText += `---------------------------\nСсылка на пользователя: https://web.telegram.org/k/#${data.userId}`
+
+  await telegram.sendMessage(process.env.ORDER_GROUP, msgText)
 }
 
 module.exports = {launchBot, answerWebAppQuery}
