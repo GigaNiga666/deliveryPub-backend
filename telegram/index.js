@@ -10,10 +10,10 @@ bot.start((ctx) => {
     Markup.button.webApp('Сайт', `${process.env.CLIENT_URL}`),
   ]))
 })
+bot.on('web_app_data', ctx => ctx.reply('ЛАЛАЛАЛАЛАЛ'))
 const launchBot = () => bot.launch();
 
 const answerWebAppQuery = async (data) => {
-  console.log(data.delivery)
   let msgText = 'Заказ оформлен:\n'
 
   data.order.forEach(order => {
@@ -22,6 +22,7 @@ const answerWebAppQuery = async (data) => {
 
   msgText +=
     `---------------------------
+Данные о доставке:
 Имя: ${data.delivery.name}
 Телефон: ${data.delivery.telephone}
 Адрес: ${data.delivery.address}
@@ -36,6 +37,8 @@ ${data.delivery.com ? `Комментарий : ${data.delivery.com}` : ''}`
       message_text : msgText
     }
   })
+
+
 }
 
 module.exports = {launchBot, answerWebAppQuery}
