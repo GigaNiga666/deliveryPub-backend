@@ -13,12 +13,19 @@ bot.start((ctx) => {
 const launchBot = () => bot.launch();
 
 const answerWebAppQuery = async (data) => {
+
+  let msgText = 'Заказ оформлен:\n'
+
+  data.order.forEach(order => {
+    msgText += `Название: ${order.name}, Стиль : ${order.style}, Количество : ${order.amount}\n`
+  })
+
   await telegram.answerWebAppQuery(data.queryId, {
     type: 'article',
     id: data.queryId,
     title: 'Покупка',
     input_message_content : {
-      message_text : 'Успешная покупка\n Приходите ещё %0A Будем вас рады видеть' + data.order[0].name
+      message_text : msgText
     }
   })
 }
