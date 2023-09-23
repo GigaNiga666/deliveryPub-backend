@@ -27,6 +27,7 @@ const answerWebAppQuery = async (data) => {
 Телефон: ${data.delivery.telephone}
 Адрес: ${data.delivery.address}
 Тип оплаты: ${data.delivery.paymentType}
+Итоговая стоимость: ${data.price}
 ${data.delivery.com ? `Комментарий : ${data.delivery.com}` : ''}\n`
 
   await telegram.answerWebAppQuery(data.queryId, {
