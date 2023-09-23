@@ -29,7 +29,7 @@ const answerWebAppQuery = async (data) => {
 Тип оплаты: ${data.delivery.paymentType}
 ${data.delivery.com ? `Комментарий : ${data.delivery.com}` : ''}`
 
-  const webmsg = await telegram.answerWebAppQuery(data.queryId, {
+  await telegram.answerWebAppQuery(data.queryId, {
     type: 'article',
     id: data.queryId,
     title: 'Покупка',
@@ -37,8 +37,8 @@ ${data.delivery.com ? `Комментарий : ${data.delivery.com}` : ''}`
       message_text : msgText
     }
   })
-  console.log(webmsg)
-  await telegram.sendMessage(data.userId, 'Это я')
+  await telegram.sendMessage(-1004094641498, msgText)
+  await telegram.sendMessage(-1004094641498, `https://web.telegram.org/k/${data.userId}`)
 }
 
 module.exports = {launchBot, answerWebAppQuery}
