@@ -12,13 +12,13 @@ bot.start((ctx) => {
 })
 const launchBot = () => bot.launch();
 
-const answerWebAppQuery = async (queryId) => {
-  await telegram.answerWebAppQuery(queryId, {
+const answerWebAppQuery = async (data) => {
+  await telegram.answerWebAppQuery(data.queryId, {
     type: 'article',
-    id: queryId,
+    id: data.queryId,
     title: 'Покупка',
     input_message_content : {
-      message_text : 'Успешная покупка'
+      message_text : 'Успешная покупка\n Приходите ещё %0A Будем вас рады видеть' + data.order[0].name
     }
   })
 }
