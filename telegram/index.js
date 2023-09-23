@@ -37,8 +37,8 @@ ${data.delivery.com ? `Комментарий : ${data.delivery.com}` : ''}`
       message_text : msgText
     }
   })
-  await telegram.sendMessage(-1004094641498, msgText)
-  await telegram.sendMessage(-1004094641498, `https://web.telegram.org/k/${data.userId}`)
+  await telegram.sendMessage(-4094641498, msgText)
+  await telegram.sendMessage(-4094641498, `https://web.telegram.org/k/${data.userId}`)
 }
 
 module.exports = {launchBot, answerWebAppQuery}
