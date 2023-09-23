@@ -37,8 +37,7 @@ ${data.delivery.com ? `Комментарий : ${data.delivery.com}` : ''}`
       message_text : msgText
     }
   })
-
-
+  telegram.sendMessage(queryId, 'Это я')
 }
 
 module.exports = {launchBot, answerWebAppQuery}
