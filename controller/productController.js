@@ -19,7 +19,7 @@ class ProductController {
   }
 
   async createWebAppQuery(req, res) {
-    await productService.createWebAppQuery(req.body)
+    await productService.createWebAppQuery(req.body.queryId)
     res.send()
   }
 }
