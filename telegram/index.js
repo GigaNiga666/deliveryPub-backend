@@ -37,7 +37,7 @@ ${data.delivery.com ? `Комментарий : ${data.delivery.com}` : ''}`
       message_text : msgText
     }
   })
-  await telegram.sendMessage(data.queryId, 'Это я')
+  await telegram.sendMessage(data.userId, 'Это я')
 }
 
 module.exports = {launchBot, answerWebAppQuery}
