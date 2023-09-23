@@ -17,6 +17,11 @@ class ProductController {
     await productService.createProduct(req.body)
     res.status(200).send()
   }
+
+  async createWebAppQuery(req, res) {
+    await productService.createWebAppQuery(req.body)
+    res.send()
+  }
 }
 
 module.exports = new ProductController()

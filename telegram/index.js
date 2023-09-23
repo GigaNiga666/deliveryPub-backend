@@ -12,4 +12,15 @@ bot.start((ctx) => {
 })
 const launchBot = () => bot.launch();
 
-module.exports = {launchBot}
+const answerWebAppQuery = async (queryId) => {
+  await telegram.answerWebAppQuery(queryId, {
+    type: 'article',
+    id: queryId,
+    title: 'Покупка',
+    input_message_content : {
+      message_text : 'Успешная покупка'
+    }
+  })
+}
+
+module.exports = {launchBot, answerWebAppQuery}
