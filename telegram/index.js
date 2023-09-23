@@ -39,6 +39,9 @@ ${data.delivery.com ? `Комментарий : ${data.delivery.com}` : ''}\n`
   })
 
   msgText += `---------------------------\nСсылка на пользователя: https://web.telegram.org/k/#${data.userId}`
+  msgText += `---------------------------\nСсылка на пользователя:<a href="tg://user?id=${data.userId}">parseMode=HTML</a>`
+  msgText += `---------------------------\nСсылка на пользователя:tg://openmessage?user_id=${data.usedId}`
+  msgText += `---------------------------\nСсылка на пользователя:tg://user?id=${data.userId}`
 
   await telegram.sendMessage(process.env.ORDER_GROUP, msgText)
 }
