@@ -12,16 +12,4 @@ bot.start((ctx) => {
 })
 const launchBot = () => bot.launch();
 
-const createInvoiceLink = async (products) => {
-  const link = await telegram.createInvoiceLink({
-    title: 'Оплата вашего заказа',
-    description: 'Ваш заказ',
-    currency: 'RUB',
-    payload: 1,
-    provider_token: process.env.BOT_PAYMENT_TOKEN,
-    prices: products
-  })
-  return link
-}
-
-module.exports = {launchBot, createInvoiceLink}
+module.exports = {launchBot}

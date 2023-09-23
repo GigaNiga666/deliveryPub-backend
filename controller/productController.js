@@ -17,11 +17,6 @@ class ProductController {
     await productService.createProduct(req.body)
     res.status(200).send()
   }
-
-  async getInvoiceLink(req, res) {
-    const link = await productService.getInvoiceLink(req.body)
-    res.send(link)
-  }
 }
 
 module.exports = new ProductController()
