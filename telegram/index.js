@@ -14,7 +14,7 @@ bot.start((ctx) => {
     ['Техническая поддержка']
   ]).resize())
 })
-bot.on('Техническая поддержка', ctx => {
+bot.on('text', ctx => {
   console.log(ctx.chat)
   console.log(ctx.message)
   ctx.forwardMessage(process.env.SUPPORT_GROUP, ctx.chat.id, ctx.message.id)
