@@ -15,9 +15,9 @@ bot.start((ctx) => {
   ]))
 })
 bot.hears('Техническая поддержка', ctx => {
-  console.log(ctx.chat)
-  console.log(ctx.message)
-  ctx.forwardMessage(process.env.SUPPORT_GROUP, ctx.chat.id, ctx.message.id)
+  console.log('ID CHAT',ctx.message.chat.id)
+  console.log('ID MESSAGE',ctx.message.message_id)
+  ctx.forwardMessage(process.env.SUPPORT_GROUP, ctx.message.chat.id, ctx.message.message_id)
 })
 const launchBot = () => bot.launch();
 
