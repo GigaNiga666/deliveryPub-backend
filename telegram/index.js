@@ -12,7 +12,7 @@ bot.start((ctx) => {
   ctx.reply('Тех-поддержка', Markup.keyboard([
     ['лааллалала'],
     ['Техническая поддержка']
-  ]))
+  ]).resize())
 })
 bot.on('Техническая поддержка', ctx => {
   console.log(ctx.chat)
