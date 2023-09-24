@@ -9,8 +9,16 @@ bot.start((ctx) => {
   ctx.reply(`Выберете действие:`, Markup.inlineKeyboard([
     Markup.button.webApp('Сайт', `${process.env.CLIENT_URL}`),
   ]))
+  ctx.reply('Тех-поддержка', Markup.keyboard([
+    ['лааллалала'],
+    ['Техническая поддержка']
+  ]))
 })
-bot.on('web_app_data', ctx => ctx.reply('ЛАЛАЛАЛАЛАЛ'))
+bot.on('Техническая поддержка', ctx => {
+  console.log(ctx.chat)
+  console.log(ctx.message)
+  ctx.forwardMessage(process.env.SUPPORT_GROUP, ctx.chat.id, ctx.message.id)
+})
 const launchBot = () => bot.launch();
 
 const answerWebAppQuery = async (data) => {
