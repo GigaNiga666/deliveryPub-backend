@@ -9,7 +9,7 @@ class ProductService {
   }
 
   async getProduct(id) {
-    const {rows} = await db.query('SELECT * FROM product WHERE id = $1', [id]);
+    const {rows} = await db.query('SELECT p.id,p.title,p.image,p.description,p.price,p.alcohol_percent,p.volume,p.bitterness,p.country,p.brewery_name,p.style_name,p.compound,c.category_title as category, c.class_title as class FROM product p JOIN category c ON  p.category_id = c.id WHERE id =$1', [id]);
     return rows[0]
   }
 
