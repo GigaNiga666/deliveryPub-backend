@@ -38,7 +38,7 @@ bot.action(/supportRes/, async (ctx) => {
 })
 
 bot.on('message', ctx => {
-  if (ctx.chat.id === +process.env.SUPPORT_GROUP && ctx.message.reply_to_message) {
+  if (ctx.chat.id === +process.env.SUPPORT_GROUP && ctx.message.reply_to_message && ctx.message.reply_to_message.forward_from) {
     return telegram.sendMessage(ctx.message.reply_to_message.forward_from.id, '✉ Ответ от тех. поддержки:', Markup.inlineKeyboard([
       Markup.button.callback('Прочитать', `supportRes-${ctx.message.text}`),
     ]))
@@ -60,7 +60,7 @@ const answerWebAppQuery = async (data) => {
 Имя: ${data.delivery.name}
 Телефон: ${data.delivery.telephone}
 Адрес: ${data.delivery.address}
-Тип оплаты: ${data.delivery.paymentType}
+Тип оплаты: ${data.delivery.paymentType + data.delivery.surrender ? `, ${data.delivery.surrender}` : ''}
 Итоговая стоимость: ${data.price}₽
 ${data.delivery.com ? `Комментарий : ${data.delivery.com}` : ''}\n`
 
