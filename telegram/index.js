@@ -50,7 +50,6 @@ const launchBot = () => bot.launch();
 const answerWebAppQuery = async (data) => {
   let msgText = 'Заказ оформлен:\n'
 
-  console.log(data.delivery.paymentType)
 
   data.order.forEach(order => {
     msgText += `---------------------------\nНазвание: ${order.name}, Количество : ${order.amount}\n`
