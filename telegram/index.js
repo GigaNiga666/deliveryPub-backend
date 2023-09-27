@@ -62,7 +62,7 @@ const answerWebAppQuery = async (data) => {
 Имя: ${data.delivery.name}
 Телефон: ${data.delivery.telephone}
 Адрес: ${data.delivery.address}
-Тип оплаты: ${data.delivery.paymentType} ${data.delivery.surrender ? `, ${data.delivery.surrender}` : ''}
+Тип оплаты: ${data.delivery.paymentType} ${data.delivery.surrender ? `, сдача с ${data.delivery.surrender}` : ''}
 Итоговая стоимость: ${data.price}₽
 ${data.delivery.com ? `Комментарий : ${data.delivery.com}` : ''}\n`
 
