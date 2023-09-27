@@ -19,7 +19,7 @@ bot.use(session())
 bot.use(stage.middleware())
 
 bot.start((ctx) => {
-  ctx.reply(`Выберете действие:`, Markup.inlineKeyboard([
+  ctx.reply(`Добро пожаловать в Delivery Pub !`, Markup.inlineKeyboard([
     Markup.button.webApp('Сайт', `${process.env.CLIENT_URL}`),
     Markup.button.callback('Тех. поддержка', 'supportEnter')
   ]))
