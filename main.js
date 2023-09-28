@@ -28,7 +28,7 @@ app.use('/client/public', express.static('./client/public'))
 
 const server = https.createServer(options, app);
 
-server.listen(8001, function(){
+server.listen(PORT, function(){
   console.log('Server start on PORT: ' + PORT)
 });
 
