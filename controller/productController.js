@@ -83,6 +83,16 @@ class ProductController {
     const bool = await adminService.checkData(req.body)
     res.send(bool)
   }
+
+  async createTables(req, res) {
+    try {
+      await adminService.createTables();
+      res.status(200).send()
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
 }
 
 module.exports = new ProductController()

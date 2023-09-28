@@ -13,5 +13,6 @@ router.post('/adminAuth', ProductController.adminAuth)
 router.post('/createCategory', ProductController.createCategory)
 router.post('/updateCategory', ProductController.updateCategory)
 router.post('/deleteCategory', ProductController.deleteCategory)
+router.post('/createTables', ProductController.createTables)
 
 module.exports = router
