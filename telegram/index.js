@@ -2,9 +2,10 @@ const {Telegraf, session, Markup, Telegram} = require('telegraf')
 const {Stage, BaseScene} = require('telegraf/scenes')
 
 const support = new BaseScene('support')
-support.on('message', ctx =>  {
-  ctx.forwardMessage(process.env.SUPPORT_GROUP, ctx.message.chat.id, ctx.message.message_id)
-  return ctx.scene.leave()
+support.on('message', async (ctx) =>  {
+  await ctx.forwardMessage(process.env.SUPPORT_GROUP, ctx.message.chat.id, ctx.message.message_id)
+  await telegram.sendMessage(process.env.SUPPORT_GROUP, ctx.message.from.username ? `Ссылка на пользователя ${ctx.message.from.first_name} : https://t.me/${ctx.message.from.username}` : `Ссылка на пользователя ${ctx.message.from.first_name} : https://web.telegram.org/k/#${ctx.message.from.id}`)
+  return await ctx.scene.leave()
 })
 support.action('end', async (ctx) => {
   await telegram.editMessageText(ctx.chat.id, ctx.update.callback_query.message.message_id, undefined, ctx.update.callback_query.message.text, Markup.inlineKeyboard([]))
@@ -26,7 +27,8 @@ bot.start((ctx) => {
 })
 
 bot.action('supportEnter', async (ctx) => {
-  await ctx.reply('Задайте интирисующий вас вопрос')
+  await ctx.reply('Задайте интересующий Вас вопрос : \n' +
+    '(Просим обратить внимание, если Ваш аккаунт скрыт, мы Вам напишем напрямую, не от имени бота)')
   return ctx.scene.enter('support')
 })
 
