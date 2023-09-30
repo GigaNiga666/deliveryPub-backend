@@ -58,11 +58,11 @@ const answerWebAppQuery = async (data) => {
 
 
     data.order.forEach(order => {
-      msgText += `---------------------------\n🔹 Название: ${order.name}, Количество : ${order.amount}\n`
+      msgText += `\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\ \n🔹 Название: ${order.name}, Количество : ${order.amount}\n`
     })
 
     msgText +=
-      `---------------------------
+      `\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\
 Данные о доставке:
 📗 Имя: ${data.delivery.name}
 📞 Телефон: ${data.delivery.telephone}
@@ -80,11 +80,10 @@ ${data.delivery.com ? `✉ Комментарий : ${data.delivery.com}` : ''}\
       }
     })
 
-    console.log(data)
+  msgText += '\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\ \n 📝 Чтобы ответить пользователю\n' + '`/ответ ' + data.userId + ' Ваш ответ`'
 
-    const msg = await telegram.sendMessage(process.env.ORDER_GROUP, msgText)
-    console.log(msg)
-    await telegram.sendMessage(process.env.ORDER_GROUP, '📝 Чтобы ответить пользователю\n' + '`/ответ ' + data.userId + ' Ваш ответ`', { parse_mode: 'MarkdownV2'})
+    await telegram.sendMessage(process.env.ORDER_GROUP, msgText, { parse_mode: 'MarkdownV2'})
+
   } catch(e) {
       console.log(e)
   }
