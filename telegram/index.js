@@ -61,7 +61,7 @@ bot.hears(/\ответ \d{9} /, async ctx => {
       await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\\!\\\nОтвет от тех\\.\\ поддержки:\n\n`' + ctx.message.text.substring(17) + '`', { parse_mode: 'MarkdownV2' })
     }
     else if (ctx.chat.id === +process.env.ORDER_GROUP) {
-      await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\\!\\\nПо поводу заказа:\n\n`' + ctx.message.text.substring(17) + '`', { parse_mode: 'MarkdownV2', reply_markup : Markup.inlineKeyboard([Markup.button.callback('📝 Ответить', 'rs')]) })
+      await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\\!\\\nПо поводу заказа:\n\n`' + ctx.message.text.substring(17) + '`', { reply_markup : Markup.inlineKeyboard([Markup.button.callback('📝 Ответить', 'rs')]) })
     }
   } catch(e) {
       console.log(e)
@@ -100,7 +100,6 @@ ${data.delivery.com ? `✉ Комментарий : ${data.delivery.com}` : ''}\
     })
 
     const msg = await telegram.sendMessage(process.env.ORDER_GROUP, msgText)
-    console.log(msg)
     await telegram.sendMessage(process.env.ORDER_GROUP, `📝 Чтобы ответить пользователю ${data.delivery.name}, введите\n` + '`/ответ ' + data.userId + ' Ваш ответ`', { parse_mode: 'MarkdownV2'})
   } catch(e) {
       console.log(e)
