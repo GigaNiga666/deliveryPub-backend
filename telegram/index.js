@@ -45,7 +45,7 @@ bot.action('support', async (ctx) => {
     }
 })
 
-bot.action('response', async (ctx) => {
+bot.action('rs', async (ctx) => {
   try {
     console.log(ctx)
     await telegram.editMessageText(ctx.chat.id, ctx.message.message_id, undefined, ctx.message.text, Markup.inlineKeyboard([]));
@@ -61,7 +61,7 @@ bot.hears(/\ответ \d{9} /, async ctx => {
       await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\\!\\\nОтвет от тех\\.\\ поддержки:\n\n`' + ctx.message.text.substring(17) + '`', { parse_mode: 'MarkdownV2' })
     }
     else if (ctx.chat.id === +process.env.ORDER_GROUP) {
-      await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\\!\\\nПо поводу заказа:\n\n`' + ctx.message.text.substring(17) + '`', { parse_mode: 'MarkdownV2', reply_markup : Markup.inlineKeyboard([Markup.button.callback('📝 Ответить', 'response')]) })
+      await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\\!\\\nПо поводу заказа:\n\n`' + ctx.message.text.substring(17) + '`', { parse_mode: 'MarkdownV2', reply_markup : Markup.inlineKeyboard([Markup.button.callback('📝 Ответить', 'rs')]) })
     }
   } catch(e) {
       console.log(e)
@@ -98,8 +98,6 @@ ${data.delivery.com ? `✉ Комментарий : ${data.delivery.com}` : ''}\
         message_text : msgText
       }
     })
-
-    console.log(data)
 
     const msg = await telegram.sendMessage(process.env.ORDER_GROUP, msgText)
     console.log(msg)
