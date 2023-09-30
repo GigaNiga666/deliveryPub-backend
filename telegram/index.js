@@ -31,7 +31,7 @@ bot.start((ctx) => {
   try {
     ctx.reply(`Добро пожаловать в Delivery Pub !`, Markup.inlineKeyboard([
       [Markup.button.webApp('🍺 Каталог', process.env.CLIENT_URL), Markup.button.callback('✉ Задать вопрос', 'support')]
-    ]).resize())
+    ]))
   } catch(e) {
       console.log(e)
   }
@@ -61,7 +61,7 @@ bot.hears(/\ответ \d{9} /, async ctx => {
       await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\\!\\\nОтвет от тех\\.\\ поддержки:\n\n`' + ctx.message.text.substring(17) + '`', { parse_mode: 'MarkdownV2' })
     }
     else if (ctx.chat.id === +process.env.ORDER_GROUP) {
-      await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\\!\\\nПо поводу заказа:\n\n`' + ctx.message.text.substring(17) + '`', { reply_markup : Markup.inlineKeyboard([Markup.button.callback('📝 Ответить', 'rs')]) })
+      await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\\!\\\nПо поводу заказа:\n\n`' + ctx.message.text.substring(17) + '`', { reply_markup : Markup.inlineKeyboard([[Markup.button.callback('📝 Ответить', 'rs')]]) })
     }
   } catch(e) {
       console.log(e)
