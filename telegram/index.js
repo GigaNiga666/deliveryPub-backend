@@ -80,11 +80,11 @@ ${data.delivery.com ? `✉ Комментарий : ${data.delivery.com}` : ''}\
       }
     })
 
-    console.log(data.userId)
+    console.log(data)
 
     msgText += '---------------------------\n📝 Чтобы ответить на вопрос введите\n' + '`/ответ ' + data.userId + ' Ваш ответ`'
 
-    await telegram.sendMessage(process.env.ORDER_GROUP, msgText)
+    await telegram.sendMessage(process.env.ORDER_GROUP, msgText, { parse_mode: 'MarkdownV2'})
   } catch(e) {
       console.log(e)
   }
