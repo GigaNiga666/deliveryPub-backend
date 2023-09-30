@@ -20,6 +20,14 @@ class ProductService {
         console.log(e)
     }
   }
+
+  async createWebAppQuery(data) {
+    try {
+      await answerWebAppQuery(data)
+    } catch(e) {
+        console.log(e)
+    }
+  }
 }
 
 module.exports = new ProductService()

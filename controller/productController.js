@@ -82,6 +82,15 @@ class ProductController {
     }
   }
 
+  async createWebAppQuery(req, res) {
+    try {
+      await productService.createWebAppQuery(req.body)
+      res.send()
+    } catch(e) {
+        console.log(e)
+    }
+  }
+
   async adminAuth(req, res) {
     try {
       const bool = await adminService.checkData(req.body)

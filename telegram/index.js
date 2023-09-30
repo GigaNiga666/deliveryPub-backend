@@ -20,15 +20,15 @@ bot.use(stage.middleware())
 
 bot.start((ctx) => {
   try {
-    ctx.reply(`Добро пожаловать в Delivery Pub !`, Markup.keyboard([
-      [Markup.button.webApp('🍺 Каталог', process.env.CLIENT_URL), Markup.button.text('✉ Задать вопрос')]
+    ctx.reply(`Добро пожаловать в Delivery Pub !`, Markup.inlineKeyboard([
+      [Markup.button.webApp('🍺 Каталог', process.env.CLIENT_URL), Markup.button.callback('✉ Задать вопрос', 'support')]
     ]).resize())
   } catch(e) {
       console.log(e)
   }
 })
 
-bot.hears('✉ Задать вопрос', async (ctx) => {
+bot.action('support', async (ctx) => {
     try {
       await ctx.scene.enter('support')
     } catch(e) {
@@ -49,13 +49,6 @@ bot.hears(/\ответ \d{9} /, async ctx => {
   }
 })
 
-bot.on('web_app_data', (ctx) => {
-  console.log(ctx)
-})
-
-bot.on('message', (ctx) => {
-  console.log(ctx)
-})
 
 const launchBot = () => bot.launch();
 
