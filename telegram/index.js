@@ -2,14 +2,13 @@ const {Telegraf, session, Markup, Telegram} = require('telegraf')
 const {Stage, BaseScene} = require('telegraf/scenes')
 
 const support = new BaseScene('support')
-support.on('message', async (ctx) =>  {
-  await ctx.forwardMessage(process.env.SUPPORT_GROUP, ctx.message.chat.id, ctx.message.message_id)
-  await telegram.sendMessage(process.env.SUPPORT_GROUP, ctx.message.from.username ? `Ссылка на пользователя ${ctx.message.from.first_name} : https://t.me/${ctx.message.from.username}` : `Ссылка на пользователя ${ctx.message.from.first_name} : https://web.telegram.org/k/#${ctx.message.from.id}`)
-  return await ctx.scene.leave()
+support.enter(async (ctx) => {
+  await ctx.reply('📝 Задайте интересующий Вас вопрос :')
 })
-support.action('end', async (ctx) => {
-  await telegram.editMessageText(ctx.chat.id, ctx.update.callback_query.message.message_id, undefined, ctx.update.callback_query.message.text, Markup.inlineKeyboard([]))
-  return ctx.scene.leave()
+support.on('message', async (ctx) => {
+  await ctx.telegram.sendMessage(process.env.SUPPORT_GROUP, `✉ \\|\\ Новый вопрос\nОт: @${ctx.message.from.username ? ctx.message.from.username : 'Никнейма нету'}\nВопрос: ${"`" + ctx.message.text + "`"}\n\n📝 Чтобы ответить на вопрос введите\n` + '`/ответ ' + ctx.chat.id + ' Ваш ответ`', { parse_mode: 'MarkdownV2' })
+  await ctx.reply('✉ Ваш вопрос был отослан! Ожидайте ответа от тех. поддержки')
+  await ctx.scene.leave()
 })
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
@@ -20,65 +19,72 @@ bot.use(session())
 bot.use(stage.middleware())
 
 bot.start((ctx) => {
-  ctx.reply(`Добро пожаловать в Delivery Pub !`, Markup.inlineKeyboard([
-    Markup.button.webApp('Сайт', `${process.env.CLIENT_URL}`),
-    Markup.button.callback('Тех. поддержка', 'supportEnter')
-  ]))
+  try {
+    ctx.reply(`Добро пожаловать в Delivery Pub !`, Markup.keyboard([
+      [Markup.button.webApp('🍺 Каталог', process.env.CLIENT_URL), Markup.button.text('✉ Задать вопрос')]
+    ]).resize())
+  } catch(e) {
+      console.log(e)
+  }
 })
 
-bot.action('supportEnter', async (ctx) => {
-  await ctx.reply('Задайте интересующий Вас вопрос : \n' +
-    '(Просим обратить внимание, если Ваш аккаунт скрыт, мы Вам напишем напрямую, не от имени бота)')
-  return ctx.scene.enter('support')
+bot.hears('✉ Задать вопрос', async (ctx) => {
+    try {
+      await ctx.scene.enter('support')
+    } catch(e) {
+        console.log(e)
+    }
 })
 
-bot.action(/supportRes/, async (ctx) => {
-  await telegram.editMessageText(ctx.chat.id, ctx.update.callback_query.message.message_id, undefined, ctx.match.input.replace(/^.{11}/, ''), Markup.inlineKeyboard([
-    Markup.button.callback('Завершить сеанс', 'end')
-  ]))
-  return ctx.scene.enter('support')
-})
-
-bot.on('message', ctx => {
-  if (ctx.chat.id === +process.env.SUPPORT_GROUP && ctx.message.reply_to_message && ctx.message.reply_to_message.forward_from) {
-    return telegram.sendMessage(ctx.message.reply_to_message.forward_from.id, '✉ Ответ от тех. поддержки:', Markup.inlineKeyboard([
-      Markup.button.callback('Прочитать', `supportRes-${ctx.message.text}`),
-    ]))
+bot.hears(/\ответ \d{9} /, async ctx => {
+  try {
+    if (ctx.chat.id === +process.env.SUPPORT_GROUP) {
+      await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\\!\\\nОтвет от тех\\.\\ поддержки:\n\n`' + ctx.message.text.substring(17) + '`', { parse_mode: 'MarkdownV2' })
+    }
+    else if (ctx.chat.id === +process.env.ORDER_GROUP) {
+      await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\\!\\\nОтвет от тех\\.\\ поддержки:\n\n`' + ctx.message.text.substring(17) + '`', { parse_mode: 'MarkdownV2', reply_markup : Markup.inlineKeyboard([Markup.button.callback('Ответить', 'response')]) })
+    }
+  } catch(e) {
+      console.log(e)
   }
 })
 
 const launchBot = () => bot.launch();
 
 const answerWebAppQuery = async (data) => {
-  let msgText = 'Заказ оформлен:\n'
+  try {
+    let msgText = '📦 Заказ оформлен:\n'
 
 
-  data.order.forEach(order => {
-    msgText += `---------------------------\nНазвание: ${order.name}, Количество : ${order.amount}\n`
-  })
+    data.order.forEach(order => {
+      msgText += `---------------------------\n🔹 Название: ${order.name}, Количество : ${order.amount}\n`
+    })
 
-  msgText +=
-    `---------------------------
+    msgText +=
+      `---------------------------
 Данные о доставке:
-Имя: ${data.delivery.name}
-Телефон: ${data.delivery.telephone}
-Адрес: ${data.delivery.address}
-Тип оплаты: ${data.delivery.paymentType} ${data.delivery.surrender ? `, сдача с ${data.delivery.surrender}₽` : ''}
-Итоговая стоимость: ${data.price}₽
-${data.delivery.com ? `Комментарий : ${data.delivery.com}` : ''}\n`
+📗 Имя: ${data.delivery.name}
+📞 Телефон: ${data.delivery.telephone}
+📮 Адрес: ${data.delivery.address}
+${data.delivery.surrender ? '💵' : '💳'} Тип оплаты: ${data.delivery.paymentType} ${data.delivery.surrender ? `, сдача с ${data.delivery.surrender}₽` : ''}
+💰 Итоговая стоимость: ${data.price}₽
+${data.delivery.com ? `✉ Комментарий : ${data.delivery.com}` : ''}\n`
 
-  await telegram.answerWebAppQuery(data.queryId, {
-    type: 'article',
-    id: data.queryId,
-    title: 'Покупка',
-    input_message_content : {
-      message_text : msgText
-    }
-  })
+    await telegram.answerWebAppQuery(data.queryId, {
+      type: 'article',
+      id: data.queryId,
+      title: 'Покупка',
+      input_message_content : {
+        message_text : msgText
+      }
+    })
 
-  msgText += `---------------------------\nСсылка на пользователя: ${data.userLink}`
+    msgText += '---------------------------\n📝 Чтобы ответить на вопрос введите\\n\`' + '`/ответ ' + data.userLink + ' Ваш ответ`'
 
-  await telegram.sendMessage(process.env.ORDER_GROUP, msgText)
+    await telegram.sendMessage(process.env.ORDER_GROUP, msgText)
+  } catch(e) {
+      console.log(e)
+  }
 }
 
 module.exports = {launchBot, answerWebAppQuery}

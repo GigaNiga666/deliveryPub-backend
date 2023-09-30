@@ -3,15 +3,23 @@ const adminService = require('../service/adminService')
 
 class ProductController {
   async getProducts(req, res) {
-    const data = await productService.getProducts()
-    if (!data.products.length || !data.categories.length) return res.status(500).send('Данные по неизвестной причине отсутствуют')
-    else return res.send(data)
+    try {
+      const data = await productService.getProducts()
+      if (!data.products.length || !data.categories.length) return res.status(500).send('Данные по неизвестной причине отсутствуют')
+      else return res.send(data)
+    } catch(e) {
+        console.log(e)
+    }
   }
 
   async getProduct(req, res) {
-    const product = await productService.getProduct(req.params.id)
-    if (!product) return res.status(400).send('Текущего id нету')
-    else return res.send(product)
+    try {
+      const product = await productService.getProduct(req.params.id)
+      if (!product) return res.status(400).send('Текущего id нету')
+      else return res.send(product)
+    } catch(e) {
+        console.log(e)
+    }
   }
 
   async createProduct(req, res) {
@@ -75,13 +83,21 @@ class ProductController {
   }
 
   async createWebAppQuery(req, res) {
-    await productService.createWebAppQuery(req.body)
-    res.send()
+    try {
+      await productService.createWebAppQuery(req.body)
+      res.send()
+    } catch(e) {
+        console.log(e)
+    }
   }
 
   async adminAuth(req, res) {
-    const bool = await adminService.checkData(req.body)
-    res.send(bool)
+    try {
+      const bool = await adminService.checkData(req.body)
+      res.send(bool)
+    } catch(e) {
+        console.log(e)
+    }
   }
 
   async createTables(req, res) {

@@ -83,24 +83,44 @@ class AdminService {
   }
 
   async createCategory(data) {
-    return await db.query('INSERT INTO category(category_title, class_title) VALUES ($1, $2)', [data.category_title, data.class_title])
+    try {
+      return await db.query('INSERT INTO category(category_title, class_title) VALUES ($1, $2)', [data.category_title, data.class_title])
+    } catch(e) {
+        console.log(e)
+    }
   }
 
   async updateCategory(data) {
-    return await db.query('UPDATE category SET category_title=$1,class_title=$2 WHERE id=$3', [data.category_title, data.class_title, data.id])
+    try {
+      return await db.query('UPDATE category SET category_title=$1,class_title=$2 WHERE id=$3', [data.category_title, data.class_title, data.id])
+    } catch(e) {
+        console.log(e)
+    }
   }
 
   async deleteCategory(id) {
-    return await db.query('DELETE FROM category WHERE id=$1', [id])
+    try {
+      return await db.query('DELETE FROM category WHERE id=$1', [id])
+    } catch(e) {
+        console.log(e)
+    }
   }
 
   async checkData(data) {
-    return process.env.ADMIN_USERNAME === data.username && process.env.ADMIN_PASSWORD === data.password
+    try {
+      return process.env.ADMIN_USERNAME === data.username && process.env.ADMIN_PASSWORD === data.password
+    } catch(e) {
+        console.log(e)
+    }
   }
 
   async createTables() {
-    await db.query('CREATE TABLE category (id SMALLSERIAL PRIMARY KEY,category_title VARCHAR(255) NOT NULL,class_title VARCHAR(25) NOT NULL)')
-    return await db.query('create TABLE product (id SMALLSERIAL PRIMARY KEY,title VARCHAR(255) NOT NULL,description TEXT NOT NULL,image VARCHAR(255) NOT NULL,price INT2 NOT NULL,alcohol_percent INT2,volume FLOAT(3) NOT NULL,bitterness INT2,country VARCHAR(255),brewery_name VARCHAR(255),style_name VARCHAR(255),compound VARCHAR(255),category_id INTEGER NOT NULL,FOREIGN KEY (category_id) REFERENCES category(id))')
+    try {
+      await db.query('CREATE TABLE category (id SMALLSERIAL PRIMARY KEY,category_title VARCHAR(255) NOT NULL,class_title VARCHAR(25) NOT NULL)')
+      return await db.query('create TABLE product (id SMALLSERIAL PRIMARY KEY,title VARCHAR(255) NOT NULL,description TEXT NOT NULL,image VARCHAR(255) NOT NULL,price INT2 NOT NULL,alcohol_percent INT2,volume FLOAT(3) NOT NULL,bitterness INT2,country VARCHAR(255),brewery_name VARCHAR(255),style_name VARCHAR(255),compound VARCHAR(255),category_id INTEGER NOT NULL,FOREIGN KEY (category_id) REFERENCES category(id))')
+    } catch(e) {
+        console.log(e)
+    }
   }
 }
 
