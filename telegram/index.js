@@ -80,7 +80,7 @@ ${data.delivery.com ? `✉ Комментарий : ${data.delivery.com}` : ''}\
       }
     })
 
-    console.log(data.userLink)
+    console.log(data.userId)
 
     msgText += '---------------------------\n📝 Чтобы ответить на вопрос введите\n' + '`/ответ ' + data.userId + ' Ваш ответ`'
 
