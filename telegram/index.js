@@ -49,6 +49,10 @@ bot.hears(/\ответ \d{9} /, async ctx => {
   }
 })
 
+bot.on('web_app_data', (ctx) => {
+  console.log(ctx)
+})
+
 const launchBot = () => bot.launch();
 
 const answerWebAppQuery = async (data) => {
