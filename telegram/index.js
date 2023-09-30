@@ -82,9 +82,9 @@ ${data.delivery.com ? `✉ Комментарий : ${data.delivery.com}` : ''}\
 
     console.log(data)
 
-    msgText += '---------------------------\n📝 Чтобы ответить на вопрос введите\n' + '`/ответ ' + data.userId + ' Ваш ответ`'
-
-    await telegram.sendMessage(process.env.ORDER_GROUP, msgText, { parse_mode: 'MarkdownV2'})
+    const msg = await telegram.sendMessage(process.env.ORDER_GROUP, msgText, { parse_mode: 'MarkdownV2'})
+    console.log(msg)
+    await telegram.sendMessage(process.env.ORDER_GROUP, '📝 Чтобы ответить пользователю\n' + '`/ответ ' + data.userId + ' Ваш ответ`', { parse_mode: 'MarkdownV2'})
   } catch(e) {
       console.log(e)
   }
