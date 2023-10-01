@@ -28,6 +28,8 @@ bot.use(session())
 bot.use(stage.middleware())
 
 bot.start((ctx) => {
+  ctx.telegram.sendMessage(ctx.chat.id, '✉ Новое уведомление\nПо поводу заказа:\n\n`' + 'лалаалаал' + '`', {parse_mode : 'MarkdownV2', ...Markup.inlineKeyboard([Markup.button.callback('📝 Ответить', 'rs')])})
+
   try {
     ctx.reply(`Добро пожаловать в Delivery Pub !`, Markup.inlineKeyboard([
       [Markup.button.webApp('🍺 Каталог', process.env.CLIENT_URL), Markup.button.callback('✉ Задать вопрос', 'support')]
@@ -45,9 +47,9 @@ bot.action('support', async (ctx) => {
     }
 })
 
-bot.action('rs', async (ctx) => {
+bot.action('rs', (ctx) => {
   try {
-    await telegram.editMessageText(ctx.update.callback_query.from.id, ctx.update.callback_query.message.message_id, undefined, ctx.update.callback_query.message.text, {parse_mode : 'MarkdownV2', ...Markup.inlineKeyboard([])});
+    ctx.editMessageReplyMarkup();
     ctx.scene.enter('orderIssue')
   } catch(e) {
       console.log(e)
@@ -57,10 +59,10 @@ bot.action('rs', async (ctx) => {
 bot.hears(/\ответ \d{9} /, async ctx => {
   try {
     if (ctx.chat.id === +process.env.SUPPORT_GROUP) {
-      await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\nОтвет от тех\\.\\ поддержки:\n\n`' + ctx.message.text.substring(17) + '`', { parse_mode: 'MarkdownV2' })
+      await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\\!\\\nОтвет от тех\\.\\ поддержки:\n\n`' + ctx.message.text.substring(17) + '`', { parse_mode: 'MarkdownV2' })
     }
     else if (ctx.chat.id === +process.env.ORDER_GROUP) {
-      await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\nПо поводу заказа:\n\n`' + ctx.message.text.substring(17) + '`', {parse_mode : 'MarkdownV2', ...Markup.inlineKeyboard([Markup.button.callback('📝 Ответить', 'rs')])})
+      await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\\!\\\nПо поводу заказа:\n\n`' + ctx.message.text.substring(17) + '`', {parse_mode : 'MarkdownV2', ...Markup.inlineKeyboard([Markup.button.callback('📝 Ответить', 'rs')])})
     }
   } catch(e) {
       console.log(e)

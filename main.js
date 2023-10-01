@@ -13,8 +13,8 @@ const app = express()
 const PORT = process.env.PORT || 5000
 
 const options = {
-  cert: fs.readFileSync(__dirname + `/${process.env.PATH_TO_CERT}`),
-  key: fs.readFileSync(__dirname + `/${process.env.PATH_TO_KEY}`)
+  // cert: fs.readFileSync(__dirname + `/${process.env.PATH_TO_CERT}`),
+  // key: fs.readFileSync(__dirname + `/${process.env.PATH_TO_KEY}`)
 };
 
 app.use(express.json())
