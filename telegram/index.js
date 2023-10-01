@@ -16,7 +16,7 @@ orderIssue.enter(async (ctx) => {
   await ctx.reply('✉ Запишите ваш ответ')
 })
 orderIssue.on('message', async (ctx) => {
-  await ctx.telegram.sendMessage(process.env.ORDER_GROUP, `✉ \\|\\ Ответ от: @${ctx.message.from.first_name}\nОтвет: ${"`" + ctx.message.text + "`"}\n\n📝 Чтобы ответить введите\n` + '`/ответ ' + ctx.chat.id + ' Ваш ответ`', { parse_mode: 'MarkdownV2' })
+  await ctx.telegram.sendMessage(process.env.ORDER_GROUP, `✉ \\|\\ Ответ от: ${ctx.message.from.first_name}\nОтвет: ${"`" + ctx.message.text + "`"}\n\n📝 Чтобы ответить введите\n` + '`/ответ ' + ctx.chat.id + ' Ваш ответ`', { parse_mode: 'MarkdownV2' })
   await ctx.scene.leave()
 })
 
@@ -57,10 +57,10 @@ bot.action('rs', async (ctx) => {
 bot.hears(/\ответ \d{9} /, async ctx => {
   try {
     if (ctx.chat.id === +process.env.SUPPORT_GROUP) {
-      await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\\!\\\nОтвет от тех\\.\\ поддержки:\n\n`' + ctx.message.text.substring(17) + '`', { parse_mode: 'MarkdownV2' })
+      await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\nОтвет от тех\\.\\ поддержки:\n\n`' + ctx.message.text.substring(17) + '`', { parse_mode: 'MarkdownV2' })
     }
     else if (ctx.chat.id === +process.env.ORDER_GROUP) {
-      await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\\!\\\nПо поводу заказа:\n\n`' + ctx.message.text.substring(17) + '`', {parse_mode : 'MarkdownV2', ...Markup.inlineKeyboard([Markup.button.callback('📝 Ответить', 'rs')])})
+      await ctx.telegram.sendMessage(ctx.message.text.match(/\d{9}/).join(), '✉ Новое уведомление\nПо поводу заказа:\n\n`' + ctx.message.text.substring(17) + '`', {parse_mode : 'MarkdownV2', ...Markup.inlineKeyboard([Markup.button.callback('📝 Ответить', 'rs')])})
     }
   } catch(e) {
       console.log(e)
@@ -98,7 +98,7 @@ ${data.delivery.com ? `✉ Комментарий : ${data.delivery.com}` : ''}\
       }
     })
 
-    const msg = await telegram.sendMessage(process.env.ORDER_GROUP, msgText)
+    await telegram.sendMessage(process.env.ORDER_GROUP, msgText)
     await telegram.sendMessage(process.env.ORDER_GROUP, `📝 Чтобы ответить пользователю ${data.delivery.name}, введите\n` + '`/ответ ' + data.userId + ' Ваш ответ`', { parse_mode: 'MarkdownV2'})
   } catch(e) {
       console.log(e)
