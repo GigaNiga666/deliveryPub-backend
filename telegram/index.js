@@ -16,7 +16,7 @@ orderIssue.enter(async (ctx) => {
   await ctx.reply('✉ Запишите ваш ответ')
 })
 orderIssue.on('message', async (ctx) => {
-  await ctx.telegram.sendMessage(process.env.SUPPORT_GROUP, `✉ \\|\\ Ответ от: @${ctx.message.from.first_name}\nОтвет: ${"`" + ctx.message.text + "`"}\n\n📝 Чтобы ответить введите\n` + '`/ответ ' + ctx.chat.id + ' Ваш ответ`', { parse_mode: 'MarkdownV2' })
+  await ctx.telegram.sendMessage(process.env.ORDER_GROUP, `✉ \\|\\ Ответ от: @${ctx.message.from.first_name}\nОтвет: ${"`" + ctx.message.text + "`"}\n\n📝 Чтобы ответить введите\n` + '`/ответ ' + ctx.chat.id + ' Ваш ответ`', { parse_mode: 'MarkdownV2' })
   await ctx.scene.leave()
 })
 
@@ -47,8 +47,7 @@ bot.action('support', async (ctx) => {
 
 bot.action('rs', async (ctx) => {
   try {
-    console.log(ctx)
-    await telegram.editMessageText(ctx.update.callback_query.from.id, ctx.update.callback_query.message.message_id, undefined, ctx.update.callback_query.message.text, Markup.inlineKeyboard([]));
+    await telegram.editMessageText(ctx.update.callback_query.from.id, ctx.update.callback_query.message.message_id, undefined, ctx.update.callback_query.message.text, {parse_mode : 'MarkdownV2', ...Markup.inlineKeyboard([])});
     ctx.scene.enter('orderIssue')
   } catch(e) {
       console.log(e)
