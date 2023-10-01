@@ -1,4 +1,5 @@
 require('dotenv').config()
+require('events').EventEmitter.prototype._maxListeners = 100;
 const express = require('express')
 const upload = require('express-fileupload')
 const cors = require("cors");
