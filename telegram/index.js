@@ -28,8 +28,6 @@ bot.use(session())
 bot.use(stage.middleware())
 
 bot.start((ctx) => {
-  ctx.telegram.sendMessage(ctx.chat.id, '✉ Новое уведомление\nПо поводу заказа:\n\n`' + 'лалаалаал' + '`', {parse_mode : 'MarkdownV2', ...Markup.inlineKeyboard([Markup.button.callback('📝 Ответить', 'rs')])})
-
   try {
     ctx.reply(`Добро пожаловать в Delivery Pub !`, Markup.inlineKeyboard([
       [Markup.button.webApp('🍺 Каталог', process.env.CLIENT_URL), Markup.button.callback('✉ Задать вопрос', 'support')]
