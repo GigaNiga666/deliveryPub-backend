@@ -48,7 +48,7 @@ bot.action('support', async (ctx) => {
 bot.action('rs', async (ctx) => {
   try {
     console.log(ctx)
-    await telegram.editMessageText(ctx.update.callback_query.from.id, ctx.update.callback_query.message.message_id, undefined, ctx.message.text, Markup.removeKeyboard());
+    await telegram.editMessageText(ctx.update.callback_query.from.id, ctx.update.callback_query.message.message_id, undefined, ctx.update.callback_query.message.text, Markup.removeKeyboard());
     ctx.scene.enter('orderIssue')
   } catch(e) {
       console.log(e)
