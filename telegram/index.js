@@ -3,21 +3,40 @@ const {Stage, BaseScene} = require('telegraf/scenes')
 
 const support = new BaseScene('support')
 support.enter(async (ctx) => {
-  await ctx.reply('📝 Задайте интересующий Вас вопрос :')
+  try {
+    await ctx.reply('📝 Задайте интересующий Вас вопрос :')
+  } catch(e) {
+      console.log(e)
+  }
 })
 support.on('message', async (ctx) => {
-  await ctx.telegram.sendMessage(process.env.SUPPORT_GROUP, `✉ \\|\\ Новый вопрос\nОт: @${ctx.message.from.username ? ctx.message.from.username : 'Никнейма нету'}\nВопрос: ${"`" + ctx.message.text + "`"}\n\n📝 Чтобы ответить на вопрос введите\n` + '`/ответ ' + ctx.chat.id + ' Ваш ответ`', { parse_mode: 'MarkdownV2' })
-  await ctx.reply('✉ Ваш вопрос был отослан! Ожидайте ответа от тех. поддержки')
-  await ctx.scene.leave()
+ try {
+
+   if (!ctx.message.text) return ctx.reply('⛔ Пожалуйста отправьте Ваш вопрос в текстовом виде!')
+
+   await ctx.telegram.sendMessage(process.env.SUPPORT_GROUP, `✉ \\|\\ Новый вопрос\nОт: @${ctx.message.from.username ? ctx.message.from.username : 'Никнейма нету'}\nВопрос: ${"`" + ctx.message.text + "`"}\n\n📝 Чтобы ответить на вопрос введите\n` + '`/ответ ' + ctx.chat.id + ' Ваш ответ`', { parse_mode: 'MarkdownV2' })
+   await ctx.reply('✉ Ваш вопрос был отослан! Ожидайте ответа от тех. поддержки')
+   await ctx.scene.leave()
+ } catch(e) {
+     console.log(e)
+ }
 })
 
 const orderIssue = new BaseScene('orderIssue')
 orderIssue.enter(async (ctx) => {
-  await ctx.reply('✉ Запишите ваш ответ')
+  try {
+    await ctx.reply('✉ Запишите ваш ответ')
+  } catch(e) {
+      console.log(e)
+  }
 })
 orderIssue.on('message', async (ctx) => {
-  await ctx.telegram.sendMessage(process.env.ORDER_GROUP, `✉ \\|\\ Ответ от: ${ctx.message.from.first_name}\nОтвет: ${"`" + ctx.message.text + "`"}\n\n📝 Чтобы ответить введите\n` + '`/ответ ' + ctx.chat.id + ' Ваш ответ`', { parse_mode: 'MarkdownV2' })
-  await ctx.scene.leave()
+  try {
+    await ctx.telegram.sendMessage(process.env.ORDER_GROUP, `✉ \\|\\ Ответ от: ${ctx.message.from.first_name}\nОтвет: ${"`" + ctx.message.text + "`"}\n\n📝 Чтобы ответить введите\n` + '`/ответ ' + ctx.chat.id + ' Ваш ответ`', { parse_mode: 'MarkdownV2' })
+    await ctx.scene.leave()
+  } catch(e) {
+      console.log(e)
+  }
 })
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
@@ -64,6 +83,16 @@ bot.hears(/\ответ \d{9} /, async ctx => {
     }
   } catch(e) {
       console.log(e)
+  }
+})
+
+bot.on('message', ctx => {
+  try {
+    ctx.reply(`Добро пожаловать в Delivery Pub !`, Markup.inlineKeyboard([
+      [Markup.button.webApp('🍺 Каталог', process.env.CLIENT_URL), Markup.button.callback('✉ Задать вопрос', 'support')]
+    ]))
+  } catch(e) {
+    console.log(e)
   }
 })
 
