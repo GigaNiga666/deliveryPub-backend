@@ -86,17 +86,6 @@ bot.hears(/\ответ \d{9} /, async ctx => {
   }
 })
 
-bot.on('message', ctx => {
-  try {
-    ctx.reply(`Добро пожаловать в Delivery Pub !`, Markup.inlineKeyboard([
-      [Markup.button.webApp('🍺 Каталог', process.env.CLIENT_URL), Markup.button.callback('✉ Задать вопрос', 'support')]
-    ]))
-  } catch(e) {
-    console.log(e)
-  }
-})
-
-
 const launchBot = () => bot.launch();
 
 const answerWebAppQuery = async (data) => {
