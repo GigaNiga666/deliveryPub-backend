@@ -21,7 +21,8 @@ class AdminService {
       console.log(rows)
       return rows
     } catch (e) {
-      throw Error
+      console.log(e)
+      throw new Error(e)
     }
   }
 
