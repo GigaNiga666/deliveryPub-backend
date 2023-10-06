@@ -6,7 +6,7 @@ const pool = mysql.createPool({
   host: String(process.env.DB_HOST),
   port: Number(process.env.DB_PORT),
   database: String(process.env.DB_DATABASE),
-  ssl : true
+  ssl : false
 })
 
 module.exports = pool
