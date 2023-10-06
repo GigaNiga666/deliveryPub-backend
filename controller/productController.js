@@ -24,6 +24,7 @@ class ProductController {
 
   async createProduct(req, res) {
     try {
+      console.log('some')
       await adminService.createProduct(req.files,req.body)
       res.status(200).send()
     } catch (e) {
