@@ -18,10 +18,8 @@ class AdminService {
         if (data[datum] === 'null') data[datum] = null
       }
       const [rows] =  await db.query('INSERT INTO product(title,image,price,alcohol_percent,volume,bitterness,country,brewery_name,style_name,description,category_id, compound) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', [data.title, data.image, data.price, data.alcohol_percent, data.volume, data.bitterness, data.country, data.brewery_name, data.style_name,data.description,data.category_id, data.compound])
-      console.log(rows)
       return rows
     } catch (e) {
-      console.log(e)
       throw new Error(e)
     }
   }
