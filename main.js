@@ -27,6 +27,10 @@ app.use(cors({
 app.use('/api', router)
 app.use('/client/public', express.static('./client/public'))
 
+app.get('/test', (req, res) => {
+  res.json('Server work')
+})
+
 const server = https.createServer(options, app);
 
 server.listen(PORT, function(){
