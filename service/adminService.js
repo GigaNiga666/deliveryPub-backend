@@ -18,7 +18,7 @@ class AdminService {
         if (data[datum] === 'null') data[datum] = null
       }
 
-      const {rows} =  await db.query('INSERT INTO product(title,image,price,alcohol_percent,volume,bitterness,country,brewery_name,style_name,description,category_id, compound) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)', [data.title, data.image, data.price, data.alcohol_percent, data.volume, data.bitterness, data.country, data.brewery_name, data.style_name,data.description,data.category_id, data.compound])
+      const {rows} =  await db.query('INSERT INTO product(title,image,price,alcohol_percent,volume,bitterness,country,brewery_name,style_name,description,category_id, compound) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', [data.title, data.image, data.price, data.alcohol_percent, data.volume, data.bitterness, data.country, data.brewery_name, data.style_name,data.description,data.category_id, data.compound])
       return rows
     } catch (e) {
       throw Error
@@ -39,7 +39,7 @@ class AdminService {
       for (const datum in data) {
         if (data[datum] === 'null') data[datum] = null
       }
-      const {rows} = await db.query('SELECT image FROM product WHERE id=$1', [data.id])
+      const {rows} = await db.query('SELECT image FROM product WHERE id=?', [data.id])
 
       if (rows[0].image !== data.image) {
         fs.unlink('./client/public/' + rows[0].image, (e) => {
@@ -48,18 +48,18 @@ class AdminService {
       }
 
       await db.query('UPDATE product SET ' +
-        'title=$1' +
-        ',image=$2' +
-        ',price=$3' +
-        ',alcohol_percent=$4' +
-        ',volume=$5' +
-        ',bitterness=$6' +
-        ',country=$7' +
-        ',brewery_name=$8' +
-        ',style_name=$9' +
-        ',description=$10' +
-        ',category_id=$11' +
-        ',compound=$12 WHERE id=$13', [data.title, data.image, data.price, data.alcohol_percent, data.volume, data.bitterness, data.country, data.brewery_name, data.style_name,data.description,data.category_id, data.compound, data.id])
+        'title=?' +
+        ',image=?' +
+        ',price=?' +
+        ',alcohol_percent=?' +
+        ',volume=?' +
+        ',bitterness=?' +
+        ',country=?' +
+        ',brewery_name=?' +
+        ',style_name=?' +
+        ',description=?' +
+        ',category_id=?' +
+        ',compound=? WHERE id=?', [data.title, data.image, data.price, data.alcohol_percent, data.volume, data.bitterness, data.country, data.brewery_name, data.style_name,data.description,data.category_id, data.compound, data.id])
       return
     } catch (e) {
       console.log(e)
@@ -70,13 +70,13 @@ class AdminService {
   async deleteProduct(id) {
 
     try {
-      const {rows} = await db.query('SELECT image FROM product WHERE id=$1', [id])
+      const [rows] = await db.query('SELECT image FROM product WHERE id=?', [id])
 
       fs.unlink('./client/public/' + rows[0].image, (e) => {
         if (e) console.log(e)
       })
 
-      return await db.query('DELETE FROM product WHERE id=$1', [id])
+      return await db.query('DELETE FROM product WHERE id=?', [id])
     } catch(e) {
       console.log(e)
     }
@@ -84,7 +84,7 @@ class AdminService {
 
   async createCategory(data) {
     try {
-      return await db.query('INSERT INTO category(category_title, class_title) VALUES ($1, $2)', [data.category_title, data.class_title])
+      return await db.query('INSERT INTO category(category_title, class_title) VALUES (?,?)', [data.category_title, data.class_title])
     } catch(e) {
         console.log(e)
     }
@@ -92,7 +92,7 @@ class AdminService {
 
   async updateCategory(data) {
     try {
-      return await db.query('UPDATE category SET category_title=$1,class_title=$2 WHERE id=$3', [data.category_title, data.class_title, data.id])
+      return await db.query('UPDATE category SET category_title=?,class_title=? WHERE id=?', [data.category_title, data.class_title, data.id])
     } catch(e) {
         console.log(e)
     }
@@ -100,7 +100,7 @@ class AdminService {
 
   async deleteCategory(id) {
     try {
-      return await db.query('DELETE FROM category WHERE id=$1', [id])
+      return await db.query('DELETE FROM category WHERE id=?', [id])
     } catch(e) {
         console.log(e)
     }

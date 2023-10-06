@@ -1,12 +1,12 @@
-const Pool = require('pg').Pool
+const mysql = require('mysql2')
 
-const pool = new Pool({
+const pool = mysql.createPool({
   user: String(process.env.DB_USER),
   password: String(process.env.DB_PASSWORD),
   host: String(process.env.DB_HOST),
   port: Number(process.env.DB_PORT),
   database: String(process.env.DB_DATABASE),
-  ssl : false
+  ssl : true
 })
 
 module.exports = pool
